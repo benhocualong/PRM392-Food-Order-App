@@ -6,6 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.harusora.longcn.apporderfood.database.table.CartTable;
+import com.harusora.longcn.apporderfood.database.table.CommentTable;
+import com.harusora.longcn.apporderfood.database.table.ProductTable;
+import com.harusora.longcn.apporderfood.database.table.UserTable;
 import com.harusora.longcn.apporderfood.model.Cart;
 import com.harusora.longcn.apporderfood.model.Order;
 import com.harusora.longcn.apporderfood.model.Product;
@@ -25,80 +29,40 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String schemaSQL =
-                "CREATE TABLE IF NOT EXISTS category (\n" +
-                        "    id   INTEGER\n" +
-                        "        constraint category_pk\n" +
-                        "            primary key autoincrement,\n" +
-                        "    name TEXT\n" +
-                        ");\n\n" +
+        String CREATE_PRODUCTS_TABLE = "CREATE TABLE " + ProductTable.TB_NAME + "("
+                + ProductTable.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + ProductTable.COLUMN_NAME + " TEXT NOT NULL,"
+                + ProductTable.COLUMN_DESCRIPTION + " TEXT NOT NULL,"
+                + ProductTable.COLUMN_PRICE + " REAL NOT NULL,"
+                + ProductTable.COLUMN_IMAGE + " TEXT,"
+                + ProductTable.COLUMN_CATEGORY_ID + " INTEGER" + ")";
+        String CREATE_USERS_TABLE = "CREATE TABLE " + UserTable.TB_NAME + "("
+                + UserTable.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + UserTable.COLUMN_USERNAME + " TEXT NOT NULL,"
+                + UserTable.COLUMN_PASSWORD + " TEXT NOT NULL,"
+                + UserTable.COLUMN_FULL_NAME + " TEXT NOT NULL,"
+                + UserTable.COLUMN_ADDRESS + " TEXT,"
+                + UserTable.COLUMN_GENDER + " TEXT,"
+                + UserTable.COLUMN_PHONE_NUMBER + " TEXT" + ")";
+        String CREATE_CART_TABLE = "CREATE TABLE " + CartTable.TB_NAME + "("
+                + CartTable.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + CartTable.COLUMN_USER_ID + " TEXT NOT NULL,"
+                + CartTable.COLUMN_QUANTITY + " INTEGER NOT NULL,"
+                + CartTable.COLUMN_PRODUCT_ID + " TEXT NOT NULL,"
+                + CartTable.COLUMN_PRODUCT_NAME + " TEXT NOT NULL,"
+                + CartTable.COLUMN_PRODUCT_PRICE + " REAL NOT NULL,"
+                + CartTable.COLUMN_PRODUCT_IMAGE + " TEXT" + ")";
+        String CREATE_COMMENTS_TABLE = "CREATE TABLE " + CommentTable.TB_NAME + "("
+                + CommentTable.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + CommentTable.COLUMN_USERNAME + " TEXT NOT NULL,"
+                + CommentTable.COLUMN_DETAIL + " TEXT NOT NULL,"
+                + CommentTable.COLUMN_PRODUCT_ID + " TEXT NOT NULL,"
+                + CommentTable.COLUMN_DATE + " TEXT NOT NULL" + ")";
+        db.execSQL(CREATE_USERS_TABLE);
+        db.execSQL(CREATE_PRODUCTS_TABLE);
+        db.execSQL(CREATE_CART_TABLE);
+        db.execSQL(CREATE_COMMENTS_TABLE);
 
-                        "CREATE TABLE IF NOT EXISTS \"order\" (\n" +
-                        "    id           integer\n" +
-                        "        constraint order_pk\n" +
-                        "            primary key autoincrement,\n" +
-                        "    order_code   text,\n" +
-                        "    user_id      int,\n" +
-                        "    total_amount real,\n" +
-                        "    status       integer,\n" +
-                        "    payment_type int,\n" +
-                        "    cart         blob,\n" +
-                        "    address      text,\n" +
-                        "    note         text\n" +
-                        ");\n\n" +
-
-                        "CREATE TABLE IF NOT EXISTS products (\n" +
-                        "    id          INTEGER\n" +
-                        "        primary key autoincrement,\n" +
-                        "    name        TEXT,\n" +
-                        "    description TEXT,\n" +
-                        "    price       REAL,\n" +
-                        "    image       TEXT,\n" +
-                        "    category_id INT\n" +
-                        "        references category\n" +
-                        ");\n\n" +
-
-                        "ALTER TABLE IF NOT EXISTS category\n" +
-                        "    ADD CONSTRAINT IF NOT EXISTS category_products_category_id_fk\n" +
-                        "        FOREIGN KEY (id)\n" +
-                        "        REFERENCES products (category_id);\n\n" +
-
-                        "CREATE TABLE IF NOT EXISTS comment (\n" +
-                        "    id         integer\n" +
-                        "        constraint comment_pk\n" +
-                        "            primary key autoincrement,\n" +
-                        "    username   text,\n" +
-                        "    detail     text,\n" +
-                        "    product_id integer\n" +
-                        "        constraint comment_products_id_fk\n" +
-                        "        REFERENCES products,\n" +
-                        "    date       TEXT\n" +
-                        ");\n\n" +
-
-                        "CREATE TABLE IF NOT EXISTS user (\n" +
-                        "    id           integer\n" +
-                        "        constraint id\n" +
-                        "            primary key autoincrement,\n" +
-                        "    username     text,\n" +
-                        "    password     text,\n" +
-                        "    full_name    text,\n" +
-                        "    address      text,\n" +
-                        "    gender       text,\n" +
-                        "    phone_number string\n" +
-                        ");\n\n" +
-
-                        "CREATE TABLE IF NOT EXISTS cart (\n" +
-                        "    id         INTEGER\n" +
-                        "        constraint cart_pk\n" +
-                        "            primary key autoincrement,\n" +
-                        "    user_id    INT\n" +
-                        "        references user,\n" +
-                        "    quantity   INT,\n" +
-                        "    product_id INT\n" +
-                        "        references products\n" +
-                        ");";
-
-        db.execSQL(schemaSQL);
     }
 
     @Override

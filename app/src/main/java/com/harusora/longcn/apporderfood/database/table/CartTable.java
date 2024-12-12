@@ -2,6 +2,7 @@ package com.harusora.longcn.apporderfood.database.table;
 
 public class CartTable {
 
+    public static final String TB_NAME = "cart";
     public static final String COLUMN_ID = "id";
 
     public static final String COLUMN_USER_ID = "user_id";
