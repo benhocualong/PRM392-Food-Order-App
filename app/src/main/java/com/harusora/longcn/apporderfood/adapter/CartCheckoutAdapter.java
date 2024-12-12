@@ -65,11 +65,11 @@ public class CartCheckoutAdapter extends RecyclerView.Adapter<CartCheckoutAdapte
         }
 
         private void bindingView() {
-            cartProductName = itemView.findViewById(R.id.cartProductName);
-            productPrice = itemView.findViewById(R.id.productPrice);
-            imageView = itemView.findViewById(R.id.imageView);
-            productOrderPrice = itemView.findViewById(R.id.productOrderPrice);
-            quantity = itemView.findViewById(R.id.tvQuantity);
+            cartProductName = itemView.findViewById(R.id.cartProductNameCO);
+            productPrice = itemView.findViewById(R.id.productPriceCO);
+            imageView = itemView.findViewById(R.id.imageViewCO);
+            productOrderPrice = itemView.findViewById(R.id.productOrderPriceCO);
+            quantity = itemView.findViewById(R.id.tvQuantityCO);
         }
 
         public void setCart(Cart cart) {

@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.harusora.longcn.apporderfood.database.table.CartTable;
 import com.harusora.longcn.apporderfood.database.table.CommentTable;
+import com.harusora.longcn.apporderfood.database.table.OrderTable;
 import com.harusora.longcn.apporderfood.database.table.ProductTable;
 import com.harusora.longcn.apporderfood.database.table.UserTable;
 import com.harusora.longcn.apporderfood.model.Cart;
@@ -31,38 +32,50 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATE_PRODUCTS_TABLE = "CREATE TABLE " + ProductTable.TB_NAME + "("
                 + ProductTable.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + ProductTable.COLUMN_NAME + " TEXT NOT NULL,"
-                + ProductTable.COLUMN_DESCRIPTION + " TEXT NOT NULL,"
-                + ProductTable.COLUMN_PRICE + " REAL NOT NULL,"
+                + ProductTable.COLUMN_NAME + " TEXT,"
+                + ProductTable.COLUMN_DESCRIPTION + " TEXT,"
+                + ProductTable.COLUMN_PRICE + " REAL,"
                 + ProductTable.COLUMN_IMAGE + " TEXT,"
                 + ProductTable.COLUMN_CATEGORY_ID + " INTEGER" + ")";
         String CREATE_USERS_TABLE = "CREATE TABLE " + UserTable.TB_NAME + "("
                 + UserTable.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + UserTable.COLUMN_USERNAME + " TEXT NOT NULL,"
-                + UserTable.COLUMN_PASSWORD + " TEXT NOT NULL,"
-                + UserTable.COLUMN_FULL_NAME + " TEXT NOT NULL,"
+                + UserTable.COLUMN_USERNAME + " TEXT,"
+                + UserTable.COLUMN_PASSWORD + " TEXT,"
+                + UserTable.COLUMN_FULL_NAME + " TEXT,"
                 + UserTable.COLUMN_ADDRESS + " TEXT,"
                 + UserTable.COLUMN_GENDER + " TEXT,"
                 + UserTable.COLUMN_PHONE_NUMBER + " TEXT" + ")";
         String CREATE_CART_TABLE = "CREATE TABLE " + CartTable.TB_NAME + "("
                 + CartTable.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + CartTable.COLUMN_USER_ID + " TEXT NOT NULL,"
-                + CartTable.COLUMN_QUANTITY + " INTEGER NOT NULL,"
-                + CartTable.COLUMN_PRODUCT_ID + " TEXT NOT NULL,"
-                + CartTable.COLUMN_PRODUCT_NAME + " TEXT NOT NULL,"
-                + CartTable.COLUMN_PRODUCT_PRICE + " REAL NOT NULL,"
+                + CartTable.COLUMN_USER_ID + " TEXT,"
+                + CartTable.COLUMN_QUANTITY + " INTEGER,"
+                + CartTable.COLUMN_PRODUCT_ID + " TEXT,"
+                + CartTable.COLUMN_PRODUCT_NAME + " TEXT,"
+                + CartTable.COLUMN_PRODUCT_PRICE + " REAL,"
                 + CartTable.COLUMN_PRODUCT_IMAGE + " TEXT" + ")";
         String CREATE_COMMENTS_TABLE = "CREATE TABLE " + CommentTable.TB_NAME + "("
                 + CommentTable.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + CommentTable.COLUMN_USERNAME + " TEXT NOT NULL,"
-                + CommentTable.COLUMN_DETAIL + " TEXT NOT NULL,"
-                + CommentTable.COLUMN_PRODUCT_ID + " TEXT NOT NULL,"
-                + CommentTable.COLUMN_DATE + " TEXT NOT NULL" + ")";
+                + CommentTable.COLUMN_USERNAME + " TEXT,"
+                + CommentTable.COLUMN_DETAIL + " TEXT,"
+                + CommentTable.COLUMN_PRODUCT_ID + " TEXT,"
+                + CommentTable.COLUMN_DATE + " TEXT" + ")";
+        String CREATE_ORDER_TABLE = "CREATE TABLE " + OrderTable.TB_NAME + "(" +
+                OrderTable.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                OrderTable.COLUMN_ORDER_CODE + " TEXT," +
+                OrderTable.COLUMN_USER_ID + " INTEGER," +
+                OrderTable.COLUMN_TOTAL_AMOUNT + " REAL," +
+                OrderTable.COLUMN_STATUS + " TEXT," +
+                OrderTable.COLUMN_PAYMENT_TYPE + " TEXT," +
+                OrderTable.COLUMN_CART_LIST + " TEXT," +
+                OrderTable.COLUMN_ADDRESS + " TEXT," +
+                OrderTable.COLUMN_NOTE + " TEXT," +
+                OrderTable.COLUMN_ORDER_DATE + " TEXT" +
+                ")";
         db.execSQL(CREATE_USERS_TABLE);
         db.execSQL(CREATE_PRODUCTS_TABLE);
         db.execSQL(CREATE_CART_TABLE);
+        db.execSQL(CREATE_ORDER_TABLE);
         db.execSQL(CREATE_COMMENTS_TABLE);
-
     }
 
     @Override
@@ -72,6 +85,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor getAllProducts() {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery("SELECT * FROM products ORDER BY id DESC", null);
+    }
+
+    public Cursor getAllOrdersByUserId(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT * FROM orders where user_id = ? and status = 1 ORDER BY order_date DESC", new String[]{String.valueOf(userId)});
     }
 
     public Cursor getAllCartByUserId(int userId) {
@@ -150,6 +168,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put("payment_type", order.getPaymentType());
         values.put("address", order.getAddress());
         values.put("note", order.getNote());
+        values.put("order_date", order.getOrderDate());
 
         ByteArrayOutputStream bass = new ByteArrayOutputStream();
         ObjectOutputStream oos;
@@ -162,8 +181,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             e.printStackTrace();
         }
 
-        long id = db.insert("order", null, values);
+        long id = db.insert("orders", null, values);
         db.close();
+    }
+
+    public boolean checkUsername(String username) {
+        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+        Cursor cursor = MyDatabase.rawQuery("Select * from user where username = ?", new String[]{username});
+        return cursor.getCount() > 0;
+    }
+
+    public boolean insertData(String username, String password) {
+        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("username", username);
+        contentValues.put("password", password);
+        long result = MyDatabase.insert("user", null, contentValues);
+        return result != -1;
     }
 }
 

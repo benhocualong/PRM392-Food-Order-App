@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -24,6 +25,8 @@ public class LoginActivity extends AppCompatActivity {
     Button btnLogin;
     EditText etUsername, etPwd;
 
+    private TextView btnForgotPassword, btnSignup;
+
     private SharedPreferences pref;
 
     @Override
@@ -32,10 +35,26 @@ public class LoginActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
         initView();
-        bindingAction();
+        handleLoginBtn();
+        handleForgotPasswordBtn();
+        handleSignupBtn();
     }
 
-    private void bindingAction() {
+    private void handleSignupBtn() {
+        btnSignup.setOnClickListener(v -> {
+            Intent intent = new Intent(this, SignUpActivity.class);
+            startActivity(intent);
+        });
+    }
+
+    private void handleForgotPasswordBtn() {
+        btnForgotPassword.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ForgotPasswordActivity.class);
+            startActivity(intent);
+        });
+    }
+
+    private void handleLoginBtn() {
         btnLogin.setOnClickListener(this::handleClick);
     }
 
@@ -66,5 +85,7 @@ public class LoginActivity extends AppCompatActivity {
         etPwd = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogIn);
         pref = getSharedPreferences("login", MODE_PRIVATE);
+        btnForgotPassword = findViewById(R.id.forgotPassword);
+        btnSignup = findViewById(R.id.btnSignup);
     }
 }

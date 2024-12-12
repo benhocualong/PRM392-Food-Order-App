@@ -22,6 +22,8 @@ public class Order {
 
     private String note;
 
+    private String orderDate;
+
 
     public Order(int id, String orderCode, int userId, double totalAmount, int status, int paymentType, List<Cart> cartList) {
         this.id = id;
@@ -33,7 +35,9 @@ public class Order {
         this.cartList = cartList;
     }
 
-    public Order(String orderCode, int userId, double totalAmount, int status, int paymentType, List<Cart> cartList, String address, String note) {
+
+
+    public Order(String orderCode, int userId, double totalAmount, int status, int paymentType, List<Cart> cartList, String address, String note, String orderDate) {
         this.orderCode = orderCode;
         this.userId = userId;
         this.totalAmount = totalAmount;
@@ -42,6 +46,23 @@ public class Order {
         this.cartList = cartList;
         this.address = address;
         this.note = note;
+        this.orderDate = orderDate;
+    }
+
+    public Order(int anInt, String string, int anInt1, double aDouble, int anInt2, String string1) {
+        this.id = anInt;
+        this.orderCode = string;
+        this.userId = anInt1;
+        this.totalAmount = aDouble;
+        this.status = anInt2;
+    }
+
+    public String getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(String orderDate) {
+        this.orderDate = orderDate;
     }
 
     public String getAddress() {

@@ -24,8 +24,10 @@ import com.harusora.longcn.apporderfood.database.table.CartTable;
 import com.harusora.longcn.apporderfood.model.Cart;
 import com.harusora.longcn.apporderfood.model.Order;
 import com.harusora.longcn.apporderfood.util.Constant;
+import com.harusora.longcn.apporderfood.util.Utils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -86,7 +88,8 @@ public class CheckoutActivity extends AppCompatActivity {
             }
             AtomicReference<Double> totalAmount = new AtomicReference<>((double) 0);
             carts.forEach(cart -> totalAmount.set(totalAmount.get() + cart.getQuantity() * cart.getProductPrice()));
-            Order order = new Order("PRM392" + new Random().nextInt(100000), pref.getInt("userId", 1), totalAmount.get(), 1, radioGroupPaymentMethod.getCheckedRadioButtonId(), carts, etAddress.getText().toString(), edtNote.getText().toString());
+            Order order = new Order("PRM392" + new Random().nextInt(100000), pref.getInt("userId", 1), totalAmount.get(),
+                    1, radioGroupPaymentMethod.getCheckedRadioButtonId(), carts, etAddress.getText().toString(), edtNote.getText().toString(), Utils.dateToString(new Date()));
             databaseHelper.insertOrder(order);
             databaseHelper.deleteCartByUserId(pref.getInt("userId", 1));
             Toast.makeText(this, "Đặt hàng thành công", Toast.LENGTH_SHORT).show();

@@ -8,7 +8,7 @@
     android:background="#FFFFFF">
 
     <TextView
-        android:id="@+id/productOrderPrice"
+        android:id="@+id/productOrderPriceCO"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
@@ -16,11 +16,11 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/productPrice"
-        app:layout_constraintTop_toBottomOf="@+id/productPrice" />
+        app:layout_constraintEnd_toEndOf="@+id/productPriceCO"
+        app:layout_constraintTop_toBottomOf="@+id/productPriceCO" />
 
     <TextView
-        android:id="@+id/productPrice"
+        android:id="@+id/productPriceCO"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -28,12 +28,12 @@
         android:textColor="#3F51B5"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/cartProductName"
+        app:layout_constraintBottom_toBottomOf="@+id/cartProductNameCO"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/cartProductName" />
+        app:layout_constraintTop_toTopOf="@+id/cartProductNameCO" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imageViewCO"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_margin="4dp"
@@ -43,7 +43,7 @@
         tools:srcCompat="@drawable/ic_launcher_background" />
 
     <TextView
-        android:id="@+id/cartProductName"
+        android:id="@+id/cartProductNameCO"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -52,8 +52,8 @@
         android:textColor="#3F51B5"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
+        app:layout_constraintStart_toEndOf="@+id/imageViewCO"
+        app:layout_constraintTop_toTopOf="@+id/imageViewCO" />
 
     <Button
         android:id="@+id/btnMinus"
@@ -62,11 +62,11 @@
         android:background="@drawable/icon_minus"
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/cartProductName"
-        app:layout_constraintTop_toBottomOf="@+id/cartProductName" />
+        app:layout_constraintStart_toStartOf="@+id/cartProductNameCO"
+        app:layout_constraintTop_toBottomOf="@+id/cartProductNameCO" />
 
     <TextView
-        android:id="@+id/tvQuantity"
+        android:id="@+id/tvQuantityCO"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -84,9 +84,9 @@
         android:background="@drawable/icon_plus"
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="@+id/btnMinus"
-        app:layout_constraintEnd_toStartOf="@+id/productOrderPrice"
+        app:layout_constraintEnd_toStartOf="@+id/productOrderPriceCO"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/tvQuantity"
+        app:layout_constraintStart_toEndOf="@+id/tvQuantityCO"
         app:layout_constraintTop_toTopOf="@+id/btnMinus"
         app:layout_constraintVertical_bias="0.0" />
 
