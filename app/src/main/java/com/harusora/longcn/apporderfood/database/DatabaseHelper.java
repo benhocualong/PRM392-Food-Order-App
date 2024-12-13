@@ -69,8 +69,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 OrderTable.COLUMN_CART_LIST + " TEXT," +
                 OrderTable.COLUMN_ADDRESS + " TEXT," +
                 OrderTable.COLUMN_NOTE + " TEXT," +
-                OrderTable.COLUMN_ORDER_DATE + " TEXT" +
-                ")";
+                OrderTable.COLUMN_ORDER_DATE + " TEXT" + ")";
         db.execSQL(CREATE_USERS_TABLE);
         db.execSQL(CREATE_PRODUCTS_TABLE);
         db.execSQL(CREATE_CART_TABLE);
@@ -191,11 +190,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor.getCount() > 0;
     }
 
-    public boolean insertData(String username, String password) {
+    public boolean insertData(String username, String password, String phone) {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("username", username);
         contentValues.put("password", password);
+        contentValues.put("phone_number", phone);
         long result = MyDatabase.insert("user", null, contentValues);
         return result != -1;
     }

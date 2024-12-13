@@ -17,9 +17,10 @@ import com.harusora.longcn.apporderfood.database.DatabaseHelper;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    EditText etUser, etPad, etRepad;
+    EditText etUser, etPad, etRepad, etPhone;
     Button btnSignUp;
     private DatabaseHelper dbHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +41,8 @@ public class SignUpActivity extends AppCompatActivity {
             String username = etUser.getText().toString();
             String password = etPad.getText().toString();
             String repassword = etRepad.getText().toString();
-            if (username.isBlank() || password.isBlank() || repassword.isBlank()) {
+            String phone = etPhone.getText().toString();
+            if (username.isBlank() || password.isBlank() || repassword.isBlank() || phone.isBlank()) {
                 Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
             } else if (!password.equals(repassword)) {
                 Toast.makeText(this, "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
@@ -49,7 +51,7 @@ public class SignUpActivity extends AppCompatActivity {
                     Toast.makeText(this, "User already exist", Toast.LENGTH_LONG).show();
                     return;
                 }
-                boolean registeredSuccess = dbHelper.insertData(username, password);
+                boolean registeredSuccess = dbHelper.insertData(username, password, phone);
                 if (registeredSuccess) {
                     Toast.makeText(this, "Registered Successfully", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(this, LoginActivity.class);
@@ -68,5 +70,6 @@ public class SignUpActivity extends AppCompatActivity {
         etRepad = findViewById(R.id.etRepassword);
         btnSignUp = findViewById(R.id.btnSignup);
         dbHelper = new DatabaseHelper(this);
+        etPhone = findViewById(R.id.phone);
     }
 }

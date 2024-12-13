@@ -7,12 +7,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -20,10 +17,8 @@ import com.harusora.longcn.apporderfood.R;
 import com.harusora.longcn.apporderfood.adapter.ProductAdapter;
 import com.harusora.longcn.apporderfood.database.DatabaseHelper;
 import com.harusora.longcn.apporderfood.database.table.ProductTable;
-import com.harusora.longcn.apporderfood.model.Comment;
 import com.harusora.longcn.apporderfood.model.Product;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 

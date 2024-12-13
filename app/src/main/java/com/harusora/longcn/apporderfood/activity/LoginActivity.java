@@ -63,6 +63,10 @@ public class LoginActivity extends AppCompatActivity {
         String password = etPwd.getText().toString();
         if (username.isBlank() || password.isBlank()) {
             Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+        } else if(username.equals("admin") && password.equals("admin")){
+            Intent intent = new Intent(this, AdminActivity.class);
+            startActivity(intent);
+            finish();
         } else {
             Cursor cursor = dbHelper.checkUsernamePassword(etUsername.getText().toString(), etPwd.getText().toString());
             if (Objects.nonNull(cursor) && cursor.moveToFirst()) {
